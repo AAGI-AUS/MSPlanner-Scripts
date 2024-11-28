@@ -11,6 +11,8 @@ The function returns a data.frame containing a row for every Task of every Bucke
 
 The Bash shell script [**download_planner_data.sh**](https://github.com/AAGI-AUS/MSPlanner-Scripts/blob/main/download_planner_data.sh) is just a convenient wrapper for the R function, which also exports the constructed data.frame of Planner Tasks to a CSV file.
 
+The example R script [**example.R**](https://github.com/AAGI-AUS/MSPlanner-Scripts/blob/main/example.R) shows a basic template for how to use the `download_planner_data()` function to download Planner data for a given Microsoft Group/Team to a data.frame, and then export it to a CSV.
+
 ### Finding your Microsoft Graph API Token
 
 ><img src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/solid/triangle-exclamation.svg" width="24" height="24"> **NOTE:** In our experience, these Microsoft Graph API tokens are very ephemeral. The lifetime for the tokens is only a day by default. The token lifetime _can_ be extended, and (even better) an allowlist of applications with arbitrary access to the Graph API _can_ be specified. However, both of these settings are strictly controlled by the Microsoft 365 Enterprise Administrator, who will usually be your University/Organisation's IT Support team. If you want try asking them about organising this for you, best of luck! In AAGI-AU's case, our ITDS team considered either of those options to be an "unacceptable security risk for miniscule gain", so we're instead left with a 'semi'-automated process where we have to manually regenerate a daily token.
