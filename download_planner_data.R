@@ -6,8 +6,12 @@
 # be a libcurl issue? In any case, running via terminal seems to
 # avoid the issue entirely.)
 #
+# 06/01/2025 Update: Manually closing curl connections is probably
+#   safest, since the GC won't always clean these up in time (I was
+#   getting errors like "all 128 connections in use").
+# 
 # Code author: Russell A. Edson, AAGI-AU
-# Date last modified: 21/11/2024
+# Date last modified: 06/01/2025
 
 if (!require(curl)) { install.packages("curl") }
 if (!require(jsonlite)) { install.packages("jsonlite") }
@@ -62,6 +66,7 @@ download_planner_data <- function(api_token, group_id, verbose = FALSE) {
     handle = handle
   )
   json <- jsonlite::fromJSON(readLines(connection, warn = FALSE))
+  close(connection)
   plans <- json$value[ , c("title", "id")]
   #TODO: If no Plans at all, return nothing?
 
@@ -80,6 +85,7 @@ download_planner_data <- function(api_token, group_id, verbose = FALSE) {
       handle = handle
     )
     json <- jsonlite::fromJSON(readLines(connection, warn = FALSE))
+    close(connection)
     buckets <- json$value[ , c("name", "id")]
     
     # Retrieve list of Label category names and IDs
@@ -92,6 +98,7 @@ download_planner_data <- function(api_token, group_id, verbose = FALSE) {
       handle = handle
     )
     json <- jsonlite::fromJSON(readLines(connection, warn = FALSE))
+    close(connection)
     label_text <- as.character(json$categoryDescriptions)
     label_category <- names(json$categoryDescriptions)
     labels <- data.frame(
@@ -117,6 +124,7 @@ download_planner_data <- function(api_token, group_id, verbose = FALSE) {
       handle = handle
     )
     json <- jsonlite::fromJSON(readLines(connection, warn = FALSE))
+    close(connection)
     tasks <- json$value
     
     if (length(tasks) != 0) {
@@ -190,6 +198,7 @@ download_planner_data <- function(api_token, group_id, verbose = FALSE) {
           handle = handle
         )
         json <- jsonlite::fromJSON(readLines(connection, warn = FALSE))
+        close(connection)
         task_details <- json
         task_notes <- ifelse(
           is.null(task_details$description),
@@ -263,6 +272,7 @@ download_planner_data <- function(api_token, group_id, verbose = FALSE) {
         handle = handle
       )
       json <- jsonlite::fromJSON(readLines(connection, warn = FALSE))
+      close(connection)
       personnel_display_name <- json$displayName
       data$`Assigned Personnel` <- stringr::str_replace_all(
         data$`Assigned Personnel`,
