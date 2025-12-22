@@ -1,7 +1,17 @@
 # MSPlanner-Scripts
-R/Bash scripts for downloading Microsoft Planner data in a given Team to a CSV.
+<!-- Badges -->
+[![Project Status: Inactive – The project has reached a stable, usable state but is no longer being actively developed; support/maintenance will be provided as time allows.](https://www.repostatus.org/badges/latest/inactive.svg)](https://www.repostatus.org/#inactive)
 
-## Typical usage
+R/Bash scripts for downloading Microsoft Planner data in a given Group/Team to a CSV.
+
+A modified version of these scripts (pointing to the AAGI-AU Team and Channels by ID specifically) is used for the technical operations of the AAGI-AU leadership team, under GRDC investment UOA2301-005OPX. The scripts in this repository are general and can be used with any Microsoft Team/Group, and are released publicly under the MIT licence.
+
+## 22/12/2025 Note
+The scrape script is missing some try-catch structure to handle the cases where the Microsoft Graph server does not respond/denies the request. We noticed these errors cropping up now and again in AAGI-AU ever since the script has started making hundreds of requests over the dozens of managed projects. On rare occasions the request will fail, and the script fails very ungracefully by terminating and discarding any information it has already scraped from the Team. Other than this issue though, these scripts are considered complete for operational purposes in AAGI-AU. Contributions and feedback are welcome, as always, but it is not anticipated that further work will happen with these scripts. This repository is considered to be in an inactive state of development.
+
+In 2026, the strategy to further automate and _robustise_ the Microsoft Planner data downloads is to set up a [Microsoft Team Workflow](https://support.microsoft.com/en-au/office/browse-and-add-workflows-in-microsoft-teams-4998095c-8b72-4b0e-984c-f2ad39e6ba9a), which would populate a spreadsheet with the information without needing manual intervention and with built-in retries. Details of the Workflow setup will depend on how the new Adelaide University M365 tenancy works, but the general structured will be documented and added to an AAGI-AUS GitHub repository. It is expected that the finished Workflow will completely supersede these scripts.
+
+## Typical script usage
 
 The R script [**download_planner_data.R**](https://github.com/AAGI-AUS/MSPlanner-Scripts/blob/main/download_planner_data.R) defines a function `download_planner_data` that takes two important arguments:
 - `api_token`: This is your unique Microsoft Graph API token. (See the section below on [finding your Microsoft Graph API token](#finding-your-microsoft-graph-api-token).)
